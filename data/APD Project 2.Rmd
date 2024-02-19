@@ -1,10 +1,13 @@
 ---
 title: "APD Project 2"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 date: "2024-02-17"
 ---
 
-```{r setup}
+## Analyzing Trends of FEMA Claims Over Time
+```{r setup, message=FALSE, warning=FALSE}
 library(httr)
 library(jsonlite)
 library(dplyr)
@@ -16,7 +19,7 @@ claims <- data$FimaNfipClaims
 ```
 
 
-```{r annual}
+```{r annual, message=FALSE, warning=FALSE, fig.align='center'}
 library(lubridate)
 library(ggplot2)
 library(plotly)
@@ -30,9 +33,10 @@ ggplot(claims, aes(x = year)) +
   geom_bar(fill = "blue", color = "white", alpha = 0.7) + 
   labs(title = "Bar Chart of Dates from Claims Data (Annually)",
        x = "Month",
-       y = "Frequency") + theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1))
+       y = "Frequency") + theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, colour = "black", color="white")
 
 ```
+
 Plotted annual data to see if there was a trend in the number of FEMA claims over time. According to the chart, there seems to be no visible trend. There were peaks in NFIP claims around 2004-2005 and 2020.
 
 According to E&E News https://www.eenews.net/articles/analysis-8-counties-got-half-of-2020-flood-claims/,
@@ -42,29 +46,39 @@ According to E&E News https://www.eenews.net/articles/analysis-8-counties-got-ha
 Hurricane Sally, a Category 2 storm in September that hit the Gulf Coast in Alabama and Florida, accounted for roughly one-third of the claims paid by the National Flood Insurance Program in 2020."
 
 
-```{r buildings}
+
+## Observing types of buildings that are most impacted as reported by the number of claims:
+
+
+```{r buildings, message=FALSE, warning=FALSE, fig.align='center'}
 library(lubridate)
 library(ggplot2)
 library(plotly)
 
+# Define the labels for the building description codes
+building_labels <- c("1" = "Main building",
+                     "2" = "Detached guest house",
+                     "3" = "Detached garage",
+                     "5" = "Warehouse",
+                     "6" = "Pool House, Clubhouse, Recreation Building",
+                     "8" = "Other",
+                     "10" = "Apartment building")
+
 # Plot bar chart of types of buildings affected
-ggplot(claims, aes(x = buildingDescriptionCode)) +
+ggplot(claims, aes(x = factor(buildingDescriptionCode, labels = building_labels))) +
   geom_bar(fill = "blue", color = "white", alpha = 0.7) + 
-  labs(title = "Types of Buildings assoicated with NFIP claims ",
-       x = "Building Description Code",
-       y = "Frequency") + scale_x_continuous(breaks = scales::pretty_breaks(n = 20)) + scale_y_continuous(limits = c(0,900)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, colour = "black")
+  labs(title = "Types of Buildings associated with NFIP claims",
+       x = "Building Description",
+       y = "Frequency") + 
+  scale_y_continuous(limits = c(0, 900)) + 
+  geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, colour = "black") +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1)) # Rotate x labels for readability
 ```
-Then I wanted to observe the types of buildings that are most impacted as reported by the number of claims:
 
-1) Main buidling
-2) Detached guest house
-3) Detached garage
-5) Warehouse
-6) Pool House, Clubhouse, Recreation Building
-8) Other
-10) Apartment building
 
-```{r city_state}
+## States that Had the Most NFIP Claims
+
+```{r city_state, message=FALSE, warning=FALSE, fig.align='center'}
 
 library(lubridate)
 library(ggplot2)
@@ -74,7 +88,7 @@ library(plotly)
 ggplot(claims, aes(x = state)) +
   geom_bar(fill = "blue", color = "white", alpha = 0.7) + 
   labs(title = "States with Most Frequent NFIP Claims",
-       x = "State", y = "Frequency") + theme(axis.text.x = element_text(angle=90, vjust=.5, hjust=1)) + scale_y_continuous(limits = c(0,1020)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, colour = "black")
+       x = "State", y = "Frequency") + theme(axis.text.x = element_text(angle=0, vjust=.5, hjust=1)) + scale_y_continuous(limits = c(0,1020)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, colour = "black")
 
 #pie chart of Alabama zipcodes with most frequent NFIP claims
 AL_zipcodes = table(subset(claims, state == 'AL', select = reportedZipCode))
@@ -82,7 +96,8 @@ lbls <- as.numeric(AL_zipcodes)
 labels_with_freq <- ifelse(lbls > 10, paste(names(AL_zipcodes), " (", lbls, ")", sep = ""), "")
 pie(AL_zipcodes, labels = labels_with_freq, main="Pie Chart of AL Zip Codes")
 ```
-Then I wanted to observe the states that hahd the most NFIP claims which was Alabama by a land slide. This is consistent with the news article shown prior as well. 
+
+Alabama, by a land slide, is the state that had most NFIP claims. This is consistent with the news article shown prior as well. 
 
 The pie chart delved deeper into the state of Alabama by looking at the zip codes that had the most claims tied to it. 
 
@@ -94,7 +109,7 @@ The pie chart delved deeper into the state of Alabama by looking at the zip code
 
 Baldwin County is on the Gulf Coast and borders the Gulf of Mexico. This explains the number of claims espeically in 2020 when Hurrican Sally hit the Gulf Coast.
 
-```{r floodzone}
+```{r floodzone, message=FALSE, warning=FALSE, fig.align='center'}
 
 # Plot bar chart of floodzone frequencies
 ggplot(claims, aes(x = floodZoneCurrent)) +
@@ -103,11 +118,12 @@ ggplot(claims, aes(x = floodZoneCurrent)) +
        x = "Flood Zone",
        y = "Frequency") + scale_y_continuous(limits = c(0,610)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, colour = "black")
 ```
+
 Zone A, Zones A1-A30, Zone AE, Zone AO, Zone V, Zone VE, and Zones V1-V30 are Special Flood Hazard Areas (SFHAs). These are defined as areas that will likely be inundated by the flood event having a 1-percent chance of being equaled or exceeded in any given year.
 
 Zone X is a moderate flood hazard area which is between the limits of the base flood and the 0.2-percent-annual-chance flood.
 
-```{r states_floodzone}
+```{r states_floodzone, message=FALSE, warning=FALSE, fig.align='center'}
 
 #States with SFHA
 
@@ -128,40 +144,54 @@ labels_with_freq <- paste(names(states_MFHA), " (", lbls, ")", sep = "")
 pie(states_MFHA, labels = labels_with_freq, main="Pie Chart of States with MFHA")
 ```
 
-```{r cause_of_damage}
 
-# Plot bar chart with frequency of cause of damage
-ggplot(claims, aes(x = causeOfDamage)) +
+## What Caused the Most Flood Damage?
+
+```{r cause_of_damage, message=FALSE, warning=FALSE, fig.align='center'}
+
+# Define the labels for the causes of damage
+cause_labels <- c("0" = "Other causes",
+                  "1" = "Tidal water overflow",
+                  "2" = "Stream, river, or lake overflow",
+                  "3" = "Alluvial fan overflow",
+                  "4" = "Accumulation of rainfall or snowmelt",
+                  "B" = "Expedited claim")
+
+# Plot bar chart with frequency of cause of damage with labels
+ggplot(claims, aes(x = factor(causeOfDamage, labels = cause_labels))) +
   geom_bar(fill = "blue", color = "white", alpha = 0.7) + 
-  labs(title = "What Caused Flood Damage ",
+  labs(title = "What Caused Flood Damage",
        x = "Cause of Flood Damage",
-       y = "Frequency") + scale_y_continuous(limits = c(0,400)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, color = "black")
+       y = "Frequency") + 
+  scale_y_continuous(limits = c(0, 400)) + 
+  geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, color = "black") +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1))
 
-#what's causing flood damage in Alabama
+# Plot bar chart for Alabama with labels
 AL_damage = subset(claims, state == 'AL')
-ggplot(AL_damage, aes(x = causeOfDamage)) +
+ggplot(AL_damage, aes(x = factor(causeOfDamage, labels = cause_labels))) +
   geom_bar(fill = "blue", color = "white", alpha = 0.7) + 
   labs(title = "What Caused Flood Damage in Alabama",
        x = "Cause of Flood Damage",
-       y = "Frequency") + scale_y_continuous(limits = c(0,400)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, color = "black")
+       y = "Frequency") + 
+  scale_y_continuous(limits = c(0, 400)) + 
+  geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, color = "black") +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1))
 ```
 
-Based on the data, the following are causing the most flood damage:
 
-0) Other causes
-1) Tidal water overflow
-2) Stream, river, or lake overflow
-3) Alluvial fan overflow
-4) Accumulation of rainfall or snowmelt
-B) Expedited claim handling process without site inspection
+## Is flooding in Alabama So Bad Because of no Floodproof Strucutres?
 
-```{r floodproof}
+```{r floodproof, message=FALSE, warning=FALSE, fig.align='center'}
 
 #are structures in Alabama flood proofed?
-ggplot(AL_damage, aes(x = floodproofedIndicator)) +
+ggplot(claims, aes(x = state, fill = floodproofedIndicator)) +
   geom_bar(fill = "blue", color = "white", alpha = 0.7) + 
-  labs(title = "Are buildings in Alabama floodproofed?",
+  labs(title = "Floodproofing Status of Building by State",
        x = "Floodproof Indicator",
        y = "Frequency") + scale_y_continuous(limits = c(0,1100)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, color = "black")
 ```
-The most interesting metric in my opinion as this likely explain why so many claims were filed from Alabama. If other regions are better equipped,for floods then they wouldn't have to file as many claims. 
+
+The most interesting metric in my opinion as this likely explain why so many claims were filed from Alabama. If other regions are better equipped, for floods then they wouldn't have to file as many claims.
+
+Unfortunately, there aren't many datasets available online on how many buildings in the U.S. are waterproof, so we can only speculate based on the available information that the substantial number of claims in Alabama may be attributed to insufficient floodproofing measures in the affected structures.
