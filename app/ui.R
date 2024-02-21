@@ -62,7 +62,8 @@ shinyUI(
                  titlePanel("What is causing all the NFIP claims?"),
                  plotlyOutput("causeAL"),
                  plotlyOutput("floodProofing"),
-                 htmlOutput("floodProofText")
+                 htmlOutput("floodProofText"),
+                 htmlOutput("conclusions")
         ),
         tabPanel("Appendix", 
                  titlePanel("National Flood Insurance Policy (NFIP) Claims Table"),

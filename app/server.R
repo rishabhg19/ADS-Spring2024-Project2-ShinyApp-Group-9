@@ -63,10 +63,16 @@ building_labels <- c("1" = "Main building",
 
 #AL zip code visualization
 text1p1 <-"According to the chart, there seems to be no visible trend. There were peaks in NFIP claims around 2004-2005 and 2020."
+
 AL_zipcodes = table(subset(claims, state == 'AL', select = reportedZipCode))
+zipcode_to_remove <- c(0, 112)
+
+# Remove the specific ZIP code from the table
+AL_zipcodes <- AL_zipcodes[!names(AL_zipcodes) %in% zipcode_to_remove]
 lbls <- as.numeric(AL_zipcodes)
 zipcodes_data <- as.data.frame(AL_zipcodes)
 labels_with_freq <- ifelse(lbls > 10, paste(names(AL_zipcodes), " (", lbls, ")", sep = ""), "")
+labels_with_freq <- labels_with_freq[labels_with_freq != ""]
 zip_freq_table <- table(claims$reportedZipCode)
 
 
@@ -231,7 +237,11 @@ shinyServer(function(input, output) {
   })
   
   output$floodProofText <- renderUI({
-    HTML(paste("<h4>Regions that have sufficient flood proofing and regions that do not experience many floods would not have to file many NFIP claims. It makes sense that Alabama, despite its significant floodproofing, is making the most claims. If there continues to be flood damage in Alabama with its flood proofing, Alabama will continue to claim its NFIP insurance.<br><br></h4>"))
+    HTML(paste("<h4>Regions that have sufficient flood proofing and regions that do not experience many floods would not have to file many NFIP claims. It makes sense that Alabama, despite its significant floodproofing, is making the most claims. If there continues to be flood damage in Alabama with its flood proofing, Alabama will continue to claim its NFIP insurance.<br></h4>"))
+  })
+  
+  output$conclusions <- renderUI({
+    HTML(paste("<br><h2>Conclusions</h2><h5><li>Flood proofing in Alabama is insufficient. To better prevent future damages and decrease the frequency of NFIP claims in Alabama, looking at the best flood proofing in other coastal states like Florida would be effective.</li><br><li>NFIP claims are likely tied to damages that occur despite flood proofing. Claiming insurance is the best course of action when damage mitigation has already failed, so improving mitigation, which is likely improving the effectiveness of flood proofing, may impact insurance rates, which can change the frequency of claims.</li></h5><br><br>"))
   })
   
   output$space <- renderUI({
