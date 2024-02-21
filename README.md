@@ -18,16 +18,15 @@ The **learning goals** for this project is:
 
 *The above general statement about project 2 can be removed once you are finished with your project. It is optional.
 
-## Project Title Lorem ipsum dolor sit amet
 Term: Spring 2024
 
 + Group #9
-+ **Projec title**: + Team members
-	+ Nicolette Auld-Griffith
++ **Project title**: + Team members
 	+ Rishabh Ganesh
+	+ Nicolette Auld-Griffith
 	+ Xiaoyu Mai
 
-+ **Project summary**: We often hear the loud beeping noise of amber alerts signaling nearby flash flood warnings to be wary of, but these rarely have a direct impact on our lives. In this project, we take a closer look into how these floods impact the establishments around us, and how we protect the establishments from  future flooding damage. The goal of this project is to learn about how flood insurance policies help businesses and other establishments, and whether flood insurance policies are adequate in disproportionately affected areas.
++ **Project summary**: We often hear the loud beeping noise of amber alerts signaling nearby flash flood warnings to be wary of, but these rarely have a direct impact on our lives. In this project, we take a closer look into when, where, why, and how much floods impact the establishments around us through looking at National Flood Insurance Program (NFIP) claims. The NFIP is meant to protect establishments from flooding and future proof these establishments from expected flooding damage. This project explores NFIP claims and their relevance in assisting establishments in disproportionately affected areas.
 
 + **Contribution statement**: ([default](doc/a_note_on_contributions.md)) Nicolette Auld-Griffith conducted the preliminary data analysis of the FIMA NFIP Redacted Claims dataset. Analysis included obersvations on annual trends, regional trends, structural impacts of flooding, and the causes of these disasters. All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
 Xiaoyu Mai revised code written by Nicolette, modified some code that generated charts to improve visualizations. Enhanced readability by implementing layout modifications, introducing section headings and removing warning messages. Minor errors were corrected, and supplementary notes were appended for clarity.
