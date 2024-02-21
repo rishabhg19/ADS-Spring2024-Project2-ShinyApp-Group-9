@@ -18,13 +18,12 @@ The **learning goals** for this project is:
 
 *The above general statement about project 2 can be removed once you are finished with your project. It is optional.
 
-## Project Title Lorem ipsum dolor sit amet
 Term: Spring 2024
 
 + Group #9
-+ **Projec title**: + Team members
-	+ Nicolette Auld-Griffith
++ **Project title**: + Team members
 	+ Rishabh Ganesh
+	+ Nicolette Auld-Griffith
 	+ Xiaoyu Mai
 
 + **Project summary**: We often hear the loud beeping noise of amber alerts signaling nearby flash flood warnings to be wary of, but these rarely have a direct impact on our lives. In this project, we take a closer look into how these floods impact the establishments around us, and how we protect the establishments from  future flooding damage. The goal of this project is to learn about how flood insurance policies help businesses and other establishments, and whether flood insurance policies are adequate in disproportionately affected areas.
