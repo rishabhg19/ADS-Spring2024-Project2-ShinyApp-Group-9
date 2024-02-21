@@ -31,7 +31,9 @@ library(lubridate)
 library(corrplot)
 shinyUI(
   fluidPage(
-    h1("Group 9 Project"),
+    h1("Exploring Flood Vulnerability through National Flood Insurance Program (NFIP) Claims"),
+    h3("STAT5243 Applied Data Science Spring 2024"),
+    h3("Group 9"),
     mainPanel(
       tabsetPanel(
         tabPanel("Damages", 
