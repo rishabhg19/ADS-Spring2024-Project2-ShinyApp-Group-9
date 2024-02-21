@@ -17,8 +17,6 @@ json_content <- fromJSON(my_content)
 data <- fromJSON(rawToChar(url$content))
 claims <- data$FimaNfipClaims
 ```
-
-
 ```{r annual, message=FALSE, warning=FALSE, fig.align='center'}
 library(lubridate)
 library(ggplot2)
@@ -107,7 +105,7 @@ The pie chart delved deeper into the state of Alabama by looking at the zip code
 36532- Baldwin County
 36535- Baldwin County
 
-Baldwin County is on the Gulf Coast and borders the Gulf of Mexico. This explains the number of claims espeically in 2020 when Hurrican Sally hit the Gulf Coast.
+Baldwin County is on the Gulf Coast and borders the Gulf of Mexico. This explains the number of claims especially in 2020 when Hurricane Sally hit the Gulf Coast.
 
 ```{r floodzone, message=FALSE, warning=FALSE, fig.align='center'}
 
@@ -192,6 +190,4 @@ ggplot(claims, aes(x = state, fill = floodproofedIndicator)) +
        y = "Frequency") + scale_y_continuous(limits = c(0,1100)) + geom_text(aes(label = ..count..), stat = "count", vjust = -0.5, color = "black")
 ```
 
-The most interesting metric in my opinion as this likely explain why so many claims were filed from Alabama. If other regions are better equipped, for floods then they wouldn't have to file as many claims.
-
-Unfortunately, there aren't many datasets available online on how many buildings in the U.S. are waterproof, so we can only speculate based on the available information that the substantial number of claims in Alabama may be attributed to insufficient floodproofing measures in the affected structures.
+This may explain the disproportionate number of claims in Alabama. If other regions are better equipped for floods, then they would not have to file as many claims. As such, the number of claims in Alabama may be attributed to insufficient flood proofing measures in the affected structures.
