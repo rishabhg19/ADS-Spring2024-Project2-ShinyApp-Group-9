@@ -72,7 +72,7 @@ AL_zipcodes <- AL_zipcodes[!names(AL_zipcodes) %in% zipcode_to_remove]
 lbls <- as.numeric(AL_zipcodes)
 zipcodes_data <- as.data.frame(AL_zipcodes)
 labels_with_freq <- ifelse(lbls > 10, paste(names(AL_zipcodes), " (", lbls, ")", sep = ""), "")
-labels_with_freq <- labels_with_freq[labels_with_freq != ""]
+#labels_with_freq <- labels_with_freq[labels_with_freq != ""]
 zip_freq_table <- table(claims$reportedZipCode)
 
 

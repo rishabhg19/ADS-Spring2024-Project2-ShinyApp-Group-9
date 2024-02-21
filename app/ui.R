@@ -48,7 +48,6 @@ shinyUI(
                  htmlOutput("externalLink"),
                  plotlyOutput("buildingTypes"),
                  plotlyOutput("stateClaims"),
-                 plotlyOutput("zipAL"),
                  htmlOutput("zipAnalysis"),
         ),
         tabPanel("Flood Zones", 
